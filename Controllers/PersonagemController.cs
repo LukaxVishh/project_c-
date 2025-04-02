@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.JSInterop.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using Project.Data;
 using Project.Models;
 
@@ -27,5 +28,17 @@ namespace Project.Controllers
 
             return StatusCode(201, personagem);
         }
+
+        [HttpGet]
+        public async Task<ActionResult <IEnumerable<Personagem>>> GetPersonagem()
+        {
+            var personagens = await _appDbContext.ProjectDb.ToListAsync();
+            return Ok(personagens);
+        
+            await _appDbContext.SaveChangesAsync();
+
+            return StatusCode(201, personagens);
+        }
+
     }
 }
